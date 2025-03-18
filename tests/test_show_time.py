@@ -238,6 +238,7 @@ def test_ping_command():
     assert any(s in result.stdout for s in ["Packet Loss", "Average Time", "Error"])
     assert result.returncode in [0, 1]  # Allow success or network errors
 
+
 @pytest.mark.integration
 def test_full_cli_flow():
     """Test end-to-end CLI command execution."""
