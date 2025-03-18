@@ -5,7 +5,7 @@ Track cryptocurrency prices, network status, and weather from the command line.
 ## Features
 
 - (Coin) Real-time Ethereum price tracking (CLI and TUI)
-- 🌦️ Local weather reports via OpenWeatherMap API
+- (Cloud) Local weather reports via OpenWeatherMap API
 - 📶 Network connectivity testing with ping statistics
 - 🖥️ Textual-based Terminal User Interface (TUI)
 - 📊 Rich formatted output with tables and colors
