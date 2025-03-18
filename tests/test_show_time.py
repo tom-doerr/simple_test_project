@@ -4,7 +4,7 @@ import subprocess
 import datetime
 import pytest
 import requests
-from conftest import TEXTUAL_INSTALLED, CryptoApp, CryptoDisplay, AppTester
+from conftest import TEXTUAL_INSTALLED, crypto_app as CryptoApp, crypto_display as CryptoDisplay, app_tester as AppTester
 
 
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
@@ -209,7 +209,6 @@ def test_show_time_no_textual_app():
     """Test that show_time.py with --textual fails when textual is not installed."""
     if TEXTUAL_INSTALLED:
         pytest.skip("Textual is installed, skipping this test")
-        
     result = subprocess.run(
         ["python", "show_time.py", "--textual"], capture_output=True, text=True, check=False
     )

@@ -11,7 +11,6 @@ if TEXTUAL_INSTALLED:
     from textual.app import App
     from textual.widgets import Static
     from textual_pytest import AppTester
-    
     # Import the CryptoApp and CryptoDisplay from show_time.py
     sys.path.insert(0, ".")
     from show_time import CryptoApp, CryptoDisplay
