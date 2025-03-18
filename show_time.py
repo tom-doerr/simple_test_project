@@ -156,12 +156,15 @@ if __name__ == "__main__":
     # Handle ping command separately
     if args.command == "ping":
         from ping_jitter import main as ping_main
+
         ping_main(host=args.host)  # Pass host argument to ping_jitter
         sys.exit(0)
 
     if args.textual and not TEXTUAL_INSTALLED:
-        sys.stderr.write("Textual is not installed. Please install it "
-                         "to run the Textual interface.\n")
+        sys.stderr.write(
+            "Textual is not installed. Please install it "
+            "to run the Textual interface.\n"
+        )
         sys.exit(1)
     if args.textual:
         app = CryptoApp()
@@ -173,7 +176,9 @@ if __name__ == "__main__":
             # Weather display logic
             api_key = os.getenv("OPENWEATHER_API_KEY")
             if not api_key:
-                sys.stderr.write("Error: OPENWEATHER_API_KEY environment variable not set\n")
+                sys.stderr.write(
+                    "Error: OPENWEATHER_API_KEY environment variable not set\n"
+                )
                 sys.exit(1)
 
             location = get_current_location()
