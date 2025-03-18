@@ -68,8 +68,8 @@ python show_time.py ping
 python show_time.py --help
 ```
 
-![CLI Demo](https://via.placeholder.com/600x200.png?text=System+Monitoring+CLI)
-![TUI Demo](https://via.placeholder.com/600x200.png?text=Textual+Interface)
+![CLI Demo](https://via.placeholder.com/600by200.png?text=System+Monitoring+CLI)
+![TUI Demo](https://via.placeholder.com/600by200.png?text=Textual+Interface)
 
 ## Requirements
 
