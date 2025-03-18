@@ -3,13 +3,14 @@
 import subprocess
 
 import pytest
-from textual import AppTester
+from textual.testing import AppTester
 
 try:
-    from show_time import CryptoApp
+    from show_time import CryptoApp, CryptoDisplay
 except ImportError:
     print("Failed to import CryptoApp from show_time.py. Ensure textual is installed.")
     CryptoApp = None
+    CryptoDisplay = None
 
 
 def test_show_time():
@@ -55,8 +56,8 @@ async def test_crypto_display_render():
 @pytest.mark.asyncio
 async def test_crypto_display_initial_render():
     """Test that CryptoDisplay renders initial content correctly."""
-    if CryptoApp is None:
-        pytest.skip("CryptoApp could not be imported.")
+    if CryptoApp is None or CryptoDisplay is None:
+        pytest.skip("CryptoApp or CryptoDisplay could not be imported.")
 
     app = AppTester(app=CryptoApp())
     await app.boot_app()
