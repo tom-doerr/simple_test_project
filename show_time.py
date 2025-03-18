@@ -15,11 +15,11 @@ try:
     from textual.widgets import Header, Footer, Static
     from textual import ComposeResult
 
+    CSS_PATH = "crypto.tcss"
+    BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
+
     class CryptoApp(App):
         """A Textual app to display crypto prices."""
-
-        CSS_PATH = "crypto.tcss"
-        BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
 
         def compose(self) -> ComposeResult:
             """Create child widgets for the app."""
@@ -67,9 +67,6 @@ try:
 except ImportError:
     print("Textual is not installed. Please install it to run the Textual interface.")
     sys.exit(1)
-
-    CSS_PATH = "crypto.tcss"
-    BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
 
     def compose():
         """Create child widgets for the app."""
