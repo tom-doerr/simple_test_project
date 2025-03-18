@@ -171,7 +171,7 @@ if __name__ == "__main__":
         if args.textual:
             app = CryptoApp()
             app.run()
-            return
+            sys.exit(0)
 
     console = Console()
 

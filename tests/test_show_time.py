@@ -299,6 +299,7 @@ def test_cli_demo_commands():
     )
     assert "Ethereum" in result.stdout
     assert "$" in result.stdout
+    assert "Asset" in result.stdout  # Verify table header exists
     assert "Price" in result.stdout  # Verify table header exists
 
     # Test ping command with different hosts
