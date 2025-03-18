@@ -1,6 +1,10 @@
 """Tests for show_time.py."""
 
 import subprocess
+import datetime
+import pytest
+import requests
+from conftest import TEXTUAL_INSTALLED, CryptoApp, CryptoDisplay, AppTester
 
 
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
@@ -185,10 +189,29 @@ def test_textual_installed():
         pytest.skip("textual is not installed")
 
 
-def test_show_time_no_textual():
-    """Test that show_time.py runs without errors when textual is not installed."""
+def test_show_time_no_textual_cli():
+    """Test that show_time.py CLI version runs without errors even when textual is not installed."""
+    # This test will pass regardless of whether textual is installed
     result = subprocess.run(
         ["python", "show_time.py"], capture_output=True, text=True, check=False
+    )
+    # CLI version should work without textual
+    if not TEXTUAL_INSTALLED:
+        # If textual is not installed, the CLI version should still work
+        assert result.returncode == 0
+        assert "Ethereum" in result.stdout
+    else:
+        # If textual is installed, the CLI version should also work
+        assert result.returncode == 0
+        assert "Ethereum" in result.stdout
+
+def test_show_time_no_textual_app():
+    """Test that show_time.py with --textual fails when textual is not installed."""
+    if TEXTUAL_INSTALLED:
+        pytest.skip("Textual is installed, skipping this test")
+        
+    result = subprocess.run(
+        ["python", "show_time.py", "--textual"], capture_output=True, text=True, check=False
     )
     assert result.returncode == 1
     assert "Textual is not installed" in result.stdout

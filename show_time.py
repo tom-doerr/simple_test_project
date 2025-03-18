@@ -10,10 +10,14 @@ from rich.table import Table
 
 now = datetime.datetime.now()
 
+# Check if textual is installed
+TEXTUAL_INSTALLED = False
 try:
     from textual.app import App
     from textual.widgets import Header, Footer, Static
     from textual import ComposeResult
+    
+    TEXTUAL_INSTALLED = True
 
     CSS_PATH = "crypto.tcss"
     BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
@@ -40,7 +44,7 @@ try:
             self.update_price()
             self.set_interval(60, self.update_price)
 
-        def update_price(self) -> None:
+        async def update_price(self) -> None:
             """Fetch the latest Ethereum price and update the display."""
             try:
                 api_response = requests.get(
@@ -65,8 +69,8 @@ try:
             )
 
 except ImportError:
-    print("Textual is not installed. Please install it to run the Textual interface.")
-    sys.exit(1)
+    # Don't exit immediately, allow the CLI version to run
+    TEXTUAL_INSTALLED = False
 
 
 if __name__ == "__main__":
@@ -78,33 +82,35 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    try:
-        if args.textual:
-            app = CryptoApp()
-            app.run()
-        else:
-            console = Console()
+    if args.textual and not TEXTUAL_INSTALLED:
+        print("Textual is not installed. Please install it to run the Textual interface.")
+        sys.exit(1)
+        
+    if args.textual:
+        app = CryptoApp()
+        app.run()
+    else:
+        # CLI version works without textual
+        console = Console()
 
-            table = Table(show_header=True, header_style="bold magenta")
-            table.add_column("Time", style="dim", width=20)
-            table.add_column("Asset", width=12)
-            table.add_column("Price", justify="right")
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("Time", style="dim", width=20)
+        table.add_column("Asset", width=12)
+        table.add_column("Price", justify="right")
 
-            try:
-                response = requests.get(
-                    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
-                    timeout=10,
-                )
-                response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
-            except requests.exceptions.RequestException as e:
-                console.print(f"Error fetching data: {e}", style="red")
-                sys.exit(1)
-            data = response.json()
-            eth_price = data["ethereum"]["usd"]
-
-            table.add_row(
-                now.strftime("%Y-%m-%d %H:%M:%S"), "Ethereum", f"${eth_price:,.2f}"
+        try:
+            response = requests.get(
+                "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
+                timeout=10,
             )
-            console.print(table)
-    except NameError:
-        print("Please install textual to run with --textual")
+            response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
+        except requests.exceptions.RequestException as e:
+            console.print(f"Error fetching data: {e}", style="red")
+            sys.exit(1)
+        data = response.json()
+        eth_price = data["ethereum"]["usd"]
+
+        table.add_row(
+            now.strftime("%Y-%m-%d %H:%M:%S"), "Ethereum", f"${eth_price:,.2f}"
+        )
+        console.print(table)
