@@ -12,6 +12,7 @@ import requests
 from rich.console import Console
 from rich.table import Table
 
+
 def get_current_location() -> dict:
     """Get current location using IP API."""
     try:
@@ -22,6 +23,7 @@ def get_current_location() -> dict:
         local_console = Console()
         local_console.print(f"Error getting location: {e}", style="red")
         sys.exit(1)
+
 
 def get_weather(owm_api_key: str, lat: float, lon: float) -> dict:
     """Get weather data from OpenWeatherMap API."""
@@ -37,6 +39,7 @@ def get_weather(owm_api_key: str, lat: float, lon: float) -> dict:
         local_console = Console()
         local_console.print(f"Error fetching weather: {e}", style="red")
         sys.exit(1)
+
 
 now = datetime.datetime.now()
 
@@ -119,7 +122,7 @@ if __name__ == "__main__":
         help=(
             "Show weather information for current location "
             "(requires OPENWEATHER_API_KEY environment variable)"
-        )
+        ),
     )
     args = parser.parse_args()
 
@@ -142,23 +145,22 @@ if __name__ == "__main__":
                 sys.exit(1)
 
             location = get_current_location()
-            weather = get_weather(owm_api_key=api_key, lat=location['lat'], lon=location['lon'])
-            
-            table = Table(
-                show_header=True,
-                header_style="bold cyan"
+            weather = get_weather(
+                owm_api_key=api_key, lat=location["lat"], lon=location["lon"]
             )
+
+            table = Table(show_header=True, header_style="bold cyan")
             table.add_column("Metric", style="dim", width=20)
             table.add_column("Value", justify="right")
-            
-            table.add_row("Time", datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+            table.add_row("Time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             table.add_row(
                 "Location",
                 f"{location.get('city', 'Unknown')}, "
-                f"{location.get('country_name', 'Unknown')}"
+                f"{location.get('country_name', 'Unknown')}",
             )
             table.add_row("Temperature", f"{weather['main']['temp']}°C")
-            table.add_row("Conditions", weather['weather'][0]['description'].title())
+            table.add_row("Conditions", weather["weather"][0]["description"].title())
             table.add_row("Humidity", f"{weather['main']['humidity']}%")
             table.add_row("Wind Speed", f"{weather['wind']['speed']} m/s")
         else:
