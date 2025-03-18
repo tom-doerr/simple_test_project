@@ -1,4 +1,4 @@
-=============2025-03-18 11:07:19===================
+=============2025-03-18 11:18:56===================
 
 /home/tom/.pyenv/versions/3.11.10/lib/python3.11/site-packages/pytest_asyncio/plugin.py:208: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
 The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
@@ -6,7 +6,7 @@ The event loop scope for asynchronous fixtures will default to the fixture cachi
   warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
 ============================= test session starts ==============================
 platform linux -- Python 3.11.10, pytest-8.3.4, pluggy-1.5.0
-testmon: changed files: 0, unchanged files: 1, environment: default
+testmon: The packages installed in your Python environment have been changed. All tests have to be re-executed. environment: default
 Test order randomisation NOT enabled. Enable with --random-order or --random-order-bucket=<bucket_type>
 rootdir: /home/tom/worktrees/simple_test_project/train_a_logistic_regression_model_on_mnist_20250318_110719
 plugins: mock-3.14.0, asyncio-0.24.0, testmon-2.1.3, anyio-4.9.0, timeout-2.3.1, repeat-0.9.3, xdist-3.6.1, cov-6.0.0, flake8-1.3.0, hypothesis-6.121.2, random-order-1.1.1, pylint-0.21.0
@@ -14,20 +14,19 @@ asyncio: mode=Mode.STRICT, default_loop_scope=None
 timeout: 10.0s
 timeout method: signal
 timeout func_only: False
-collected 2 items / 2 deselected / 0 selected
+collected 2 items
 
-============================ 2 deselected in 0.15s =============================
+tests/test_show_time.py ..                                               [100%]
+
+============================== 2 passed in 0.80s ===============================
 
 
 
 
 
 =====================================================================
-************* Module test_show_time
-tests/test_show_time.py:4:0: W0611: Unused import datetime (unused-import)
-
--------------------------------------------------------------------
-Your code has been rated at 9.68/10 (previous run: 10.00/10, -0.32)
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 Focus on code that causes this test to fail: 
 
@@ -40,7 +39,6 @@ Focus on fixing the linting issues
 """Tests for show_time.py."""
 
 import subprocess
-import datetime
 
 
 def test_show_time():

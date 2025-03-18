@@ -2,6 +2,7 @@
 
 import subprocess
 
+
 def test_show_time():
     """Test that show_time.py runs without errors."""
     result = subprocess.run(
