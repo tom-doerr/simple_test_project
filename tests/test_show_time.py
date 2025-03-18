@@ -103,8 +103,6 @@ async def test_crypto_display_price_displayed():
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
-@pytest.mark.asyncio
-@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 async def test_crypto_app_displays_time():
     """Test that CryptoApp displays the current time in the Textual interface."""
     if CryptoApp is None:
@@ -122,6 +120,7 @@ async def test_crypto_app_displays_time():
 
 
 @pytest.mark.asyncio
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 async def test_crypto_app_displays_data():
     """Test that CryptoApp displays data in the Textual interface."""
     if CryptoApp is None:
@@ -176,8 +175,6 @@ async def test_crypto_app_runs():
         pytest.fail(f"CryptoApp failed to run: {e}")
 
 
-@pytest.mark.asyncio
-@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 @pytest.mark.asyncio
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 async def test_crypto_app_displays_eth_price():
