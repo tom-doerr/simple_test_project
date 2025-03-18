@@ -2,6 +2,7 @@
 
 import subprocess
 import pytest
+import requests
 
 try:
     from textual.testing import AppTester
