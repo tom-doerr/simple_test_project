@@ -68,10 +68,6 @@ except ImportError:
     print("Textual is not installed. Please install it to run the Textual interface.")
     sys.exit(1)
 
-    def compose():
-        """Create child widgets for the app."""
-        return []
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
