@@ -143,7 +143,7 @@ if __name__ == "__main__":
     ping_parser = subparsers.add_parser(
         "ping",
         help="Network connectivity test",
-        description="Measure network jitter to a New York server\nExample: python show_time.py ping",
+        description="Measure network jitter\nExample: python show_time.py ping",
     )
     args = parser.parse_args()
 

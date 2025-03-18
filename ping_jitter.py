@@ -52,7 +52,7 @@ def main() -> None:
         KeyboardInterrupt: Cleanly handle user cancellation
     """
     console = Console()
-    host = "newyork.example.com"  # Production NY server
+    host = "8.8.8.8"  # Google Public DNS for reliable testing
 
     try:
         # Send 4 pings with 1 second interval and 2 second timeout

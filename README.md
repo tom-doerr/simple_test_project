@@ -1,13 +1,15 @@
-# System Monitor CLI
+# System Monitoring CLI
 
-A command-line tool to monitor cryptocurrency prices, network status, and weather.
+Track cryptocurrency prices, network status, and weather information through both CLI and Textual TUI interfaces.
 
 ## Features
 
 - Real-time Ethereum price tracking
-- Network connectivity testing (ping jitter)
-- Local weather reports
-- Text-based UI (TUI) mode when Textual is installed
+- Network connectivity testing with ping statistics
+- Local weather reporting
+- Textual-based Terminal User Interface (TUI)
+- Rich formatted output for CLI
+- Automated integration tests
 
 ## Installation
 
@@ -17,46 +19,60 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Environment Setup
+
+```bash
+# For weather functionality
+export OPENWEATHER_API_KEY='your-api-key-here'
+
+# For textual interface
+pip install "textual==0.34.2"
+```
+
 ## Usage
 
 ```bash
-# Show Ethereum price (CLI mode)
+# Show crypto prices (CLI)
 python show_time.py crypto
 
-# Start TUI mode (requires Textual)
+# Start TUI interface (requires textual)
 python show_time.py crypto --textual
 
 # Run network tests
 python show_time.py ping
 
-# Get weather report (requires OPENWEATHER_API_KEY)
-OPENWEATHER_API_KEY=your_key python show_time.py weather
+# Show weather info
+python show_time.py weather
 
-# Show help
+# Display help
 python show_time.py --help
 ```
 
-## Examples
+## Testing
 
-<!-- Demo screenshots -->
-![CLI Screenshot](https://via.placeholder.com/600x200.png?text=CLI+Demo)  
-![TUI Screenshot](https://via.placeholder.com/600x200.png?text=TUI+Demo)
-
-## Configuration
-
-Set environment variables:
+Run the full test suite:
 ```bash
-export OPENWEATHER_API_KEY="your_api_key_here"
+pytest -v tests/ --cov=show_time --cov-report=term-missing
 ```
 
-## Development
+## Demo Commands
 
-Run tests:
 ```bash
-pytest --cov=show_time --cov-report=term-missing tests/
+# Basic crypto price display
+python show_time.py crypto
+
+# Network connectivity test
+python show_time.py ping
+
+# Help documentation
+python show_time.py --help
 ```
+
+![CLI Demo](https://via.placeholder.com/600x200.png?text=System+Monitoring+CLI)
+![TUI Demo](https://via.placeholder.com/600x200.png?text=Textual+Interface)
 
 ## Requirements
 
-- Python 3.8+
-- See requirements.txt for dependencies
+- Python 3.11+
+- Reliable internet connection
+- See requirements.txt for package dependencies

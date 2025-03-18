@@ -299,22 +299,30 @@ def test_cli_demo_commands():
     )
     assert "Ethereum" in result.stdout
     assert "$" in result.stdout
+    assert "Price" in result.stdout  # Verify table header exists
 
-    # Test ping command
-    result = subprocess.run(
-        ["python", "show_time.py", "ping"],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    assert result.returncode in [0, 1]  # Allow for network errors
-    assert any(s in result.stdout for s in ["Packet Loss", "Average Time", "Error"])
+    # Test ping command with different hosts
+    for host in ["8.8.8.8", "1.1.1.1"]:
+        result = subprocess.run(
+            ["python", "show_time.py", "ping", "--host", host],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert result.returncode in [0, 1]  # Allow for network errors
+        assert any(s in result.stdout for s in ["Packet Loss", "Average Time", "Error"])
 
-    # Test help command
+    # Test help command contains all documented features
     result = subprocess.run(
         ["python", "show_time.py", "--help"],
         capture_output=True,
         text=True,
         check=True,
     )
-    assert "Examples" in result.stdout
+    help_output = result.stdout
+    assert "Examples" in help_output
+    assert "crypto" in help_output
+    assert "weather" in help_output
+    assert "ping" in help_output
+    assert "--textual" in help_output
+    assert "--host" in help_output
