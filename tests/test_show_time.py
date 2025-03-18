@@ -3,7 +3,7 @@
 import subprocess
 
 import pytest
-from textual.widgets import AppTester
+from textual.testing import AppTester
 
 try:
     from show_time import CryptoApp, CryptoDisplay
@@ -75,4 +75,18 @@ async def test_crypto_display_price_displayed():
     await app.boot_app()
     crypto_display = app.app.query_one(CryptoDisplay)
     await crypto_display.update_price()  # Wait for the price to load
+    assert "$" in str(crypto_display.render())
+
+
+@pytest.mark.asyncio
+async def test_crypto_app_displays_data():
+    """Test that CryptoApp displays data in the Textual interface."""
+    if CryptoApp is None:
+        pytest.skip("CryptoApp could not be imported.")
+
+    app = AppTester(app=CryptoApp())
+    await app.boot_app()
+    crypto_display = app.app.query_one(CryptoDisplay)
+    await crypto_display.update_price()
+    assert "Ethereum" in str(crypto_display.render())
     assert "$" in str(crypto_display.render())

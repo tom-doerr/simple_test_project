@@ -9,7 +9,8 @@ from rich.console import Console
 from rich.table import Table
 
 from textual.app import App
-from textual.widgets import Header, Footer, Static, ComposeResult
+from textual.widgets import Header, Footer, Static
+from textual import ComposeResult
 
 now = datetime.datetime.now()
 
