@@ -112,7 +112,9 @@ async def test_crypto_app_displays_time():
         app = AppTester(app=CryptoApp())
         await app.boot_app()
         crypto_display = app.app.query_one(CryptoDisplay)
-        assert datetime.datetime.now().strftime("%Y-%m-%d") in str(crypto_display.render())
+        assert datetime.datetime.now().strftime("%Y-%m-%d") in str(
+            crypto_display.render()
+        )
     except (requests.exceptions.RequestException, AssertionError) as e:
         pytest.fail(f"App failed to run: {e}")
 
