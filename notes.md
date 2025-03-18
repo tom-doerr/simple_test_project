@@ -27,3 +27,7 @@
 *   Add more comprehensive tests to check the format and content of the output.
 *   Consider adding command line arguments.
 
+## 2025-03-18
+
+*   Created `.pylintrc` to ignore `notes.md` to resolve the pylint error `C0103: Module name "*" doesn't conform to snake_case naming style (invalid-name)`.
+
