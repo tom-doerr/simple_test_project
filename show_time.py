@@ -66,6 +66,7 @@ try:
 
 except ImportError:
     print("Textual is not installed. Please install it to run the Textual interface.")
+    sys.exit(1)
 
     CSS_PATH = "crypto.tcss"
     BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]

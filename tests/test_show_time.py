@@ -185,5 +185,5 @@ def test_show_time_no_textual():
     result = subprocess.run(
         ["python", "show_time.py"], capture_output=True, text=True, check=True
     )
-    assert result.returncode == 0
+    assert result.returncode == 1
     assert "Textual is not installed" in result.stdout
