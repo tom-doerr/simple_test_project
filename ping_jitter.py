@@ -1,10 +1,10 @@
 """Measure ping jitter to a New York server."""
 
 import subprocess
+from typing import List, Optional, Tuple
 import re
 import statistics
 import requests
-from typing import List, Optional, Tuple
 from rich.console import Console
 from rich.table import Table
 
