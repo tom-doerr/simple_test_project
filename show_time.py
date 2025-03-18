@@ -117,33 +117,33 @@ if __name__ == "__main__":
   Basic crypto price:  python show_time.py crypto
   TUI mode:            python show_time.py crypto --textual
   Weather report:      python show_time.py weather
-  Network test:        python show_time.py ping"""
+  Network test:        python show_time.py ping""",
     )
     subparsers = parser.add_subparsers(dest="command", required=True, metavar="COMMAND")
     # Crypto command
     crypto_parser = subparsers.add_parser(
-        "crypto", 
+        "crypto",
         help="Cryptocurrency price monitoring",
-        description="Track Ethereum price in USD"
+        description="Track Ethereum price in USD",
     )
     crypto_parser.add_argument(
         "--textual",
         action="store_true",
-        help="Start Textual TUI interface (requires textual installed)"
+        help="Start Textual TUI interface (requires textual installed)",
     )
-    
+
     # Weather command
     weather_parser = subparsers.add_parser(
-        "weather", 
+        "weather",
         help="Local weather information",
-        description="Get current weather conditions using OpenWeatherMap API"
+        description="Get current weather conditions using OpenWeatherMap API",
     )
-    
+
     # Ping command
     ping_parser = subparsers.add_parser(
-        "ping", 
+        "ping",
         help="Network connectivity test",
-        description="Measure network jitter to a New York server\nExample: python show_time.py ping"
+        description="Measure network jitter to a New York server\nExample: python show_time.py ping",
     )
     args = parser.parse_args()
 

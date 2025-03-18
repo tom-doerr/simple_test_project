@@ -40,13 +40,13 @@ def calculate_jitter(times: List[float]) -> Optional[Tuple[float, float]]:
 
 def main() -> None:
     """Main function to measure and display ping jitter.
-    
+
     Args:
         None
-        
+
     Returns:
         None
-        
+
     Raises:
         SubprocessError: If ping command fails
         KeyboardInterrupt: Cleanly handle user cancellation
