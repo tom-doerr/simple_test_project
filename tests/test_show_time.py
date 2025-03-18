@@ -62,4 +62,17 @@ async def test_crypto_display_initial_render():
     app = AppTester(app=CryptoApp())
     await app.boot_app()
     crypto_display = app.app.query_one(CryptoDisplay)
-    assert "Loading..." in crypto_display.render()
+    assert "Loading..." in str(crypto_display.render())
+
+
+@pytest.mark.asyncio
+async def test_crypto_display_price_displayed():
+    """Test that CryptoDisplay displays the Ethereum price."""
+    if CryptoApp is None or CryptoDisplay is None:
+        pytest.skip("CryptoApp or CryptoDisplay could not be imported.")
+
+    app = AppTester(app=CryptoApp())
+    await app.boot_app()
+    crypto_display = app.app.query_one(CryptoDisplay)
+    await crypto_display.update_price()  # Wait for the price to load
+    assert "$" in str(crypto_display.render())
