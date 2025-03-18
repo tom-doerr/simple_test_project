@@ -216,10 +216,33 @@ def test_show_time_no_textual_app():
     if TEXTUAL_INSTALLED:
         pytest.skip("Textual is installed, skipping this test")
     result = subprocess.run(
-        ["python", "show_time.py", "--textual"],
+        ["python", "show_time.py", "crypto", "--textual"],
         capture_output=True,
         text=True,
         check=False,
     )
     assert result.returncode == 1
     assert "Textual is not installed" in result.stdout
+
+def test_ping_command():
+    """Test the ping command runs and produces valid output."""
+    result = subprocess.run(
+        ["python", "show_time.py", "ping"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    # Allow non-zero exit since ping might fail in CI
+    assert "Packet Loss" in result.stdout
+    assert "Average Time" in result.stdout
+
+def test_weather_command_no_key():
+    """Test weather command fails without API key."""
+    result = subprocess.run(
+        ["python", "show_time.py", "weather"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode != 0
+    assert "OPENWEATHER_API_KEY" in result.stdout

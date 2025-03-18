@@ -111,19 +111,27 @@ except ImportError:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Display current time and Ethereum price or current location weather."
+        description="System monitoring CLI tool",
+        formatter_class=argparse.RawTextHelpFormatter
     )
-    parser.add_argument(
-        "--textual", action="store_true", help="Run the Textual interface."
+    subparsers = parser.add_subparsers(dest='command', required=True)
+    
+    # Crypto command
+    crypto_parser = subparsers.add_parser('crypto', help='Cryptocurrency price monitoring')
+    crypto_parser.add_argument(
+        '--textual', 
+        action='store_true',
+        help='Start Textual TUI interface'
     )
-    parser.add_argument(
-        "--weather",
-        action="store_true",
-        help=(
-            "Show weather information for current location "
-            "(requires OPENWEATHER_API_KEY environment variable)"
-        ),
-    )
+    
+    # Weather command
+    weather_parser = subparsers.add_parser('weather', help='Local weather information')
+    
+    # Ping command
+    ping_parser = subparsers.add_parser('ping', 
+        help='Network jitter measurement\n'
+             'Example: python show_time.py ping')
+    
     args = parser.parse_args()
 
     if args.textual and not TEXTUAL_INSTALLED:

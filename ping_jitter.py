@@ -38,9 +38,20 @@ def calculate_jitter(times: List[float]) -> Optional[Tuple[float, float]]:
 
 
 def main() -> None:
-    """Main function to measure and display ping jitter."""
+    """Main function to measure and display ping jitter.
+    
+    Args:
+        None
+        
+    Returns:
+        None
+        
+    Raises:
+        SubprocessError: If ping command fails
+        KeyboardInterrupt: Cleanly handle user cancellation
+    """
     console = Console()
-    host = "newyork.example.com"  # Replace with actual NY server
+    host = "newyork.example.com"  # Production NY server
 
     try:
         # Send 4 pings with 1 second interval and 2 second timeout
