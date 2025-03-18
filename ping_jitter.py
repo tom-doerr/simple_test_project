@@ -3,6 +3,7 @@
 import subprocess
 import re
 import statistics
+import requests
 from typing import List, Optional, Tuple
 from rich.console import Console
 from rich.table import Table

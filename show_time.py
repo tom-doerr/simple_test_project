@@ -124,12 +124,11 @@ if __name__ == "__main__":
     )
     # Weather command
     weather_parser = subparsers.add_parser('weather', help='Local weather information')
-    
+
     # Ping command
     ping_parser = subparsers.add_parser('ping',
         help='Network jitter measurement\n'
              'Example: python show_time.py ping')
-    
     args = parser.parse_args()
 
     if args.textual and not TEXTUAL_INSTALLED:
