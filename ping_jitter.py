@@ -87,7 +87,7 @@ def main() -> None:
         console.print(f"Output: {e.output}")
     except KeyboardInterrupt:
         console.print("\n[yellow]Test interrupted by user[/yellow]")
-    except Exception as e:
+    except (requests.exceptions.RequestException, ValueError) as e:
         console.print(f"[red]Unexpected error:[/red] {str(e)}")
 
 

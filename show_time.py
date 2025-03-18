@@ -115,7 +115,6 @@ if __name__ == "__main__":
         formatter_class=argparse.RawTextHelpFormatter
     )
     subparsers = parser.add_subparsers(dest='command', required=True)
-    
     # Crypto command
     crypto_parser = subparsers.add_parser('crypto', help='Cryptocurrency price monitoring')
     crypto_parser.add_argument(
@@ -123,12 +122,11 @@ if __name__ == "__main__":
         action='store_true',
         help='Start Textual TUI interface'
     )
-    
     # Weather command
     weather_parser = subparsers.add_parser('weather', help='Local weather information')
     
     # Ping command
-    ping_parser = subparsers.add_parser('ping', 
+    ping_parser = subparsers.add_parser('ping',
         help='Network jitter measurement\n'
              'Example: python show_time.py ping')
     
