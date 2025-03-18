@@ -139,6 +139,21 @@ async def test_crypto_display_handles_api_error(mocker):
         pytest.fail(f"App failed to run: {e}")
 
 
+@pytest.mark.asyncio
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
+async def test_crypto_app_runs():
+    """Test that CryptoApp can be initialized and run without errors."""
+    if CryptoApp is None:
+        pytest.skip("CryptoApp could not be imported.")
+
+    try:
+        app = CryptoApp()
+        await app.process_messages()  # Process initial messages
+        assert True  # If it gets here without an exception, it's considered a pass
+    except Exception as e:
+        pytest.fail(f"CryptoApp failed to run: {e}")
+
+
 def test_textual_installed():
     """Test that textual is installed. If not, skip textual tests."""
     if not TEXTUAL_INSTALLED:
