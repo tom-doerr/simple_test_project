@@ -271,4 +271,50 @@ def test_weather_command_no_key():
         check=False,
     )
     assert result.returncode != 0
-    assert "OPENWEATHER_API_KEY" in result.stdout
+    assert "OPENWEATHER_API_KEY" in result.stderr  # Check stderr instead of stdout
+
+
+@pytest.mark.integration
+def test_help_command():
+    """Test help command output."""
+    result = subprocess.run(
+        ["python", "show_time.py", "--help"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "Show this help message and exit" in result.stdout
+    assert "Examples" in result.stdout
+
+
+@pytest.mark.integration
+def test_cli_demo_commands():
+    """Test all demo commands from README."""
+    # Test crypto command
+    result = subprocess.run(
+        ["python", "show_time.py", "crypto"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "Ethereum" in result.stdout
+    assert "$" in result.stdout
+
+    # Test ping command
+    result = subprocess.run(
+        ["python", "show_time.py", "ping"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode in [0, 1]  # Allow for network errors
+    assert any(s in result.stdout for s in ["Packet Loss", "Average Time", "Error"])
+
+    # Test help command
+    result = subprocess.run(
+        ["python", "show_time.py", "--help"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "Examples" in result.stdout
