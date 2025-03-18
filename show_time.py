@@ -1,6 +1,6 @@
 """Display current time and Ethereum price.
 
-This module provides both a command-line interface and a Textual GUI 
+This module provides both a command-line interface and a Textual GUI
 to display cryptocurrency prices and current time.
 """
 
@@ -45,7 +45,7 @@ try:
 
         def on_mount(self) -> None:
             """Initialize price updates when the widget is mounted.
-            
+
             Sets up a timer to refresh the crypto price every 60 seconds.
             """
             self.update_price()
