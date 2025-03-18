@@ -70,10 +70,9 @@ except ImportError:
     CSS_PATH = "crypto.tcss"
     BINDINGS = [("d", "toggle_dark", "Toggle dark mode")]
 
-    def compose() -> ComposeResult:
+    def compose():
         """Create child widgets for the app."""
-        yield Header()
-        yield Footer()
+        return []
 
 
 if __name__ == "__main__":

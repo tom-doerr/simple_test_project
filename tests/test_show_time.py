@@ -158,3 +158,12 @@ def test_textual_installed():
     """Test that textual is installed. If not, skip textual tests."""
     if not TEXTUAL_INSTALLED:
         pytest.skip("textual is not installed")
+
+
+def test_show_time_no_textual():
+    """Test that show_time.py runs without errors when textual is not installed."""
+    result = subprocess.run(
+        ["python", "show_time.py"], capture_output=True, text=True, check=True
+    )
+    assert result.returncode == 0
+    assert "Textual is not installed" in result.stdout
