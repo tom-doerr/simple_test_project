@@ -54,7 +54,8 @@ pytest -v tests/
 
 Lint code:
 ```bash
-pylint show_time.py ping_jitter.py tests/test_show_time.py
+# Only run pylint on Python source files
+pylint show_time.py ping_jitter.py tests/*.py
 ```
 
 ## Demo
