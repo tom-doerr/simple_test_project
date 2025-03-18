@@ -226,4 +226,4 @@ if __name__ == "__main__":
                 now.strftime("%Y-%m-%d %H:%M:%S"), "Ethereum", f"${eth_price:,.2f}"
             )
 
-        console.print(table)
+    console.print(table)
