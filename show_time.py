@@ -150,9 +150,9 @@ if __name__ == "__main__":
         default="8.8.8.8",
         help="Target host to ping (default: 8.8.8.8)",
     )
-    
+
     args = parser.parse_args()
-    
+
     # Handle ping command separately
     if args.command == "ping":
         from ping_jitter import main as ping_main
@@ -160,7 +160,8 @@ if __name__ == "__main__":
         sys.exit(0)
 
     if args.textual and not TEXTUAL_INSTALLED:
-        sys.stderr.write("Textual is not installed. Please install it to run the Textual interface.\n")
+        sys.stderr.write("Textual is not installed. Please install it "
+                         "to run the Textual interface.\n")
         sys.exit(1)
     if args.textual:
         app = CryptoApp()
