@@ -20,22 +20,22 @@ def get_current_location() -> dict:
         return resp.json()
     except requests.exceptions.RequestException as e:
         local_console = Console()
-        console.print(f"Error getting location: {e}", style="red")
+        local_console.print(f"Error getting location: {e}", style="red")
         sys.exit(1)
 
-def get_weather(api_key: str, lat: float, lon: float) -> dict:
+def get_weather(owm_api_key: str, lat: float, lon: float) -> dict:
     """Get weather data from OpenWeatherMap API."""
     try:
         url = (
             f"http://api.openweathermap.org/data/2.5/weather"
-            f"?lat={lat}&lon={lon}&appid={api_key}&units=metric"
+            f"?lat={lat}&lon={lon}&appid={owm_api_key}&units=metric"
         )
         resp = requests.get(url, timeout=10)
         resp.raise_for_status()
         return resp.json()
     except requests.exceptions.RequestException as e:
         local_console = Console()
-        console.print(f"Error fetching weather: {e}", style="red")
+        local_console.print(f"Error fetching weather: {e}", style="red")
         sys.exit(1)
 
 now = datetime.datetime.now()
@@ -114,8 +114,8 @@ if __name__ == "__main__":
         "--textual", action="store_true", help="Run the Textual interface."
     )
     parser.add_argument(
-        "--weather", 
-        action="store_true", 
+        "--weather",
+        action="store_true",
         help=(
             "Show weather information for current location "
             "(requires OPENWEATHER_API_KEY environment variable)"
@@ -142,7 +142,7 @@ if __name__ == "__main__":
                 sys.exit(1)
 
             location = get_current_location()
-            weather = get_weather(api_key, location['lat'], location['lon'])
+            weather = get_weather(owm_api_key=api_key, lat=location['lat'], lon=location['lon'])
             
             table = Table(
                 show_header=True,
