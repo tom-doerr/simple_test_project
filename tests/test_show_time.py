@@ -7,6 +7,7 @@ import requests
 try:
     from textual.testing import AppTester
     from show_time import CryptoApp, CryptoDisplay
+
     TEXTUAL_INSTALLED = True
 except ImportError as e:
     print(f"Failed to import required modules: {e}. Ensure textual is installed.")
