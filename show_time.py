@@ -1,4 +1,8 @@
-"""Display current time and Ethereum price."""
+"""Display current time and Ethereum price.
+
+This module provides both a command-line interface and a Textual GUI 
+to display cryptocurrency prices and current time.
+"""
 
 import argparse
 import datetime
