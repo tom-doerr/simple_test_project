@@ -174,6 +174,23 @@ async def test_crypto_app_runs():
         pytest.fail(f"CryptoApp failed to run: {e}")
 
 
+@pytest.mark.asyncio
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
+async def test_crypto_app_displays_current_date():
+    """Test that CryptoApp displays the current date in the Textual interface."""
+    if CryptoApp is None:
+        pytest.skip("CryptoApp could not be imported.")
+
+    try:
+        app = AppTester(app=CryptoApp())
+        await app.boot_app()
+        crypto_display = app.app.query_one(CryptoDisplay)
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        assert current_date in str(crypto_display.render())
+    except (requests.exceptions.RequestException, AssertionError) as e:
+        pytest.fail(f"CryptoApp failed to run: {e}")
+
+
 def test_textual_installed():
     """Test that textual is installed. If not, skip textual tests."""
     if not TEXTUAL_INSTALLED:
