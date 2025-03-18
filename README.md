@@ -1,15 +1,14 @@
 # System Monitoring CLI
 
-Track cryptocurrency prices, network status, and weather information through both CLI and Textual TUI interfaces.
+Track cryptocurrency prices, network status, and weather in your terminal!
 
 ## Features
 
-- Real-time Ethereum price tracking
-- Network connectivity testing with ping statistics
-- Local weather reporting
-- Textual-based Terminal User Interface (TUI)
-- Rich formatted output for CLI
-- Automated integration tests
+- 🪙 Real-time Ethereum price tracking
+- 🌤️ Local weather reports (requires OpenWeather API key)
+- 📡 Network connectivity testing (ping jitter/loss)
+- 🖥️ Text-based UI (TUI) mode with --textual flag
+- 📊 Rich terminal output formatting
 
 ## Installation
 
@@ -19,60 +18,57 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Environment Setup
-
-```bash
-# For weather functionality
-export OPENWEATHER_API_KEY='your-api-key-here'
-
-# For textual interface
-pip install "textual==0.34.2"
-```
-
 ## Usage
-
-```bash
-# Show crypto prices (CLI)
-python show_time.py crypto
-
-# Start TUI interface (requires textual)
-python show_time.py crypto --textual
-
-# Run network tests
-python show_time.py ping
-
-# Show weather info
-python show_time.py weather
-
-# Display help
-python show_time.py --help
-```
-
-## Testing
-
-Run the full test suite:
-```bash
-pytest -v tests/ --cov=show_time --cov-report=term-missing
-```
-
-## Demo Commands
 
 ```bash
 # Basic crypto price display
 python show_time.py crypto
 
-# Network connectivity test
-python show_time.py ping
+# Crypto prices in Textual UI
+python show_time.py crypto --textual
 
-# Help documentation
+# Weather report (requires OPENWEATHER_API_KEY)
+export OPENWEATHER_API_KEY="your_api_key"
+python show_time.py weather
+
+# Network connectivity test
+python show_time.py ping --host 1.1.1.1
+
+# Show help
 python show_time.py --help
 ```
 
-<img src="https://via.placeholder.com/600x200.png?text=System+Monitoring+CLI" alt="CLI Demo" width="600"/>
-<img src="https://via.placeholder.com/600x200.png?text=Textual+Interface" alt="TUI Demo" width="600"/> 
+## Configuration
 
-## Requirements
+Set environment variables in your shell or `.env` file:
+```bash
+export OPENWEATHER_API_KEY="your_api_key_here"
+```
 
-- Python 3.11+
-- Reliable internet connection
-- See requirements.txt for package dependencies
+## Development
+
+Run tests:
+```bash
+pytest -v tests/
+```
+
+Lint code:
+```bash
+pylint *.py tests/*.py
+```
+
+## Demo
+
+```bash
+# Basic crypto price check
+python show_time.py crypto
+
+# Network test for Google DNS
+python show_time.py ping --host 8.8.8.8
+
+# Full integration test suite
+pytest -v tests/test_show_time.py -m integration
+```
+
+> **Note**  
+> The Textual interface requires Python 3.11+ and proper terminal support
