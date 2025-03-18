@@ -14,6 +14,7 @@ if TEXTUAL_INSTALLED:
         # Try to import textual_pytest
         import textual_pytest
         from show_time import CryptoApp, CryptoDisplay
+
         # Make these available for tests
         APP_TESTER = textual_pytest.AppTester
         CRYPTO_APP = CryptoApp

@@ -16,6 +16,7 @@ try:
     from textual.app import App
     from textual.widgets import Header, Footer, Static
     from textual import ComposeResult
+
     TEXTUAL_INSTALLED = True
 
     CSS_PATH = "crypto.tcss"
@@ -82,7 +83,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.textual and not TEXTUAL_INSTALLED:
-        print("Textual is not installed. Please install it to run the Textual interface.")
+        print(
+            "Textual is not installed. Please install it to run the Textual interface."
+        )
         sys.exit(1)
     if args.textual:
         app = CryptoApp()
