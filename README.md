@@ -4,11 +4,11 @@ Track cryptocurrency prices, network status, and weather in your terminal!
 
 ## Features
 
-- 🪙 Real-time Ethereum price tracking
-- 🌤️ Local weather reports (requires OpenWeather API key)
-- 📡 Network connectivity testing (ping jitter/loss)
-- 🖥️ Text-based UI (TUI) mode with --textual flag
-- 📊 Rich terminal output formatting
+- Real-time Ethereum price tracking
+- Local weather reports (requires OpenWeather API key)
+- Network connectivity testing (ping jitter/loss)
+- Text-based UI (TUI) mode with --textual flag
+- Rich terminal output formatting
 
 ## Installation
 
@@ -54,7 +54,7 @@ pytest -v tests/
 
 Lint code:
 ```bash
-pylint *.py tests/*.py
+pylint show_time.py ping_jitter.py tests/test_show_time.py
 ```
 
 ## Demo
