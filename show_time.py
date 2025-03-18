@@ -111,23 +111,40 @@ except ImportError:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="System monitoring CLI tool",
+        description="System Monitoring CLI - Track crypto prices, network status, and weather",
         formatter_class=argparse.RawTextHelpFormatter,
+        epilog="""Examples:
+  Basic crypto price:  python show_time.py crypto
+  TUI mode:            python show_time.py crypto --textual
+  Weather report:      python show_time.py weather
+  Network test:        python show_time.py ping"""
     )
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers = parser.add_subparsers(dest="command", required=True, metavar="COMMAND")
+    
     # Crypto command
     crypto_parser = subparsers.add_parser(
-        "crypto", help="Cryptocurrency price monitoring"
+        "crypto", 
+        help="Cryptocurrency price monitoring",
+        description="Track Ethereum price in USD"
     )
     crypto_parser.add_argument(
-        "--textual", action="store_true", help="Start Textual TUI interface"
+        "--textual", 
+        action="store_true", 
+        help="Start Textual TUI interface (requires textual installed)"
     )
+    
     # Weather command
-    weather_parser = subparsers.add_parser("weather", help="Local weather information")
-
+    weather_parser = subparsers.add_parser(
+        "weather", 
+        help="Local weather information",
+        description="Get current weather conditions using OpenWeatherMap API"
+    )
+    
     # Ping command
     ping_parser = subparsers.add_parser(
-        "ping", help="Network jitter measurement\n" "Example: python show_time.py ping"
+        "ping", 
+        help="Network connectivity test",
+        description="Measure network jitter to a New York server\nExample: python show_time.py ping"
     )
     args = parser.parse_args()
 
