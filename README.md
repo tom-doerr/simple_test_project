@@ -38,7 +38,7 @@ python show_time.py --help
 
 ## Examples
 
-![CLI Screenshot](https://via.placeholder.com/600x200.png?text=CLI+Demo)
+![CLI Screenshot](https://via.placeholder.com/600x200.png?text=CLI+Demo)  
 ![TUI Screenshot](https://via.placeholder.com/600x200.png?text=TUI+Demo)
 
 ## Configuration
