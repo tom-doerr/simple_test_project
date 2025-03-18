@@ -8,8 +8,8 @@ import requests
 from rich.console import Console
 from rich.table import Table
 
-from textual.app import App, ComposeResult
-from textual.widgets import Header, Footer, Static
+from textual.app import App
+from textual.widgets import Header, Footer, Static, ComposeResult
 
 now = datetime.datetime.now()
 
