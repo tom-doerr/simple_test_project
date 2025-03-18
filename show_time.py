@@ -2,6 +2,7 @@
 
 import datetime
 import requests
+import sys
 from rich.console import Console
 from rich.table import Table
 
@@ -22,7 +23,7 @@ try:
     response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
 except requests.exceptions.RequestException as e:
     console.print(f"Error fetching data: {e}", style="red")
-    exit(1)
+    sys.exit(1)
 data = response.json()
 eth_price = data["ethereum"]["usd"]
 
