@@ -143,14 +143,24 @@ if __name__ == "__main__":
     ping_parser = subparsers.add_parser(
         "ping",
         help="Network connectivity test",
-        description="Measure network jitter\nExample: python show_time.py ping",
+        description="Measure network jitter and packet loss",
     )
+    ping_parser.add_argument(
+        "--host",
+        default="8.8.8.8",
+        help="Target host to ping (default: 8.8.8.8)",
+    )
+    
     args = parser.parse_args()
+    
+    # Handle ping command separately
+    if args.command == "ping":
+        from ping_jitter import main as ping_main
+        ping_main(host=args.host)  # Pass host argument to ping_jitter
+        sys.exit(0)
 
     if args.textual and not TEXTUAL_INSTALLED:
-        print(
-            "Textual is not installed. Please install it to run the Textual interface."
-        )
+        sys.stderr.write("Textual is not installed. Please install it to run the Textual interface.\n")
         sys.exit(1)
     if args.textual:
         app = CryptoApp()
@@ -162,7 +172,7 @@ if __name__ == "__main__":
             # Weather display logic
             api_key = os.getenv("OPENWEATHER_API_KEY")
             if not api_key:
-                console.print("Error: OPENWEATHER_API_KEY not set", style="red")
+                sys.stderr.write("Error: OPENWEATHER_API_KEY environment variable not set\n")
                 sys.exit(1)
 
             location = get_current_location()

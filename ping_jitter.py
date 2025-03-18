@@ -38,7 +38,7 @@ def calculate_jitter(times: List[float]) -> Optional[Tuple[float, float]]:
     return statistics.mean(diffs), statistics.stdev(diffs)
 
 
-def main() -> None:
+def main(host: str = "8.8.8.8") -> None:
     """Main function to measure and display ping jitter.
 
     Args:
