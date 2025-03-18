@@ -1,8 +1,6 @@
 """Tests for show_time.py."""
 
 import subprocess
-import datetime
-
 
 def test_show_time():
     """Test that show_time.py runs without errors."""
