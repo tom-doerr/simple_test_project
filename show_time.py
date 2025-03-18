@@ -113,11 +113,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="System Monitoring CLI - Track crypto prices, network status, and weather",
         formatter_class=argparse.RawTextHelpFormatter,
-        epilog="""Examples:
-  Basic crypto price:  python show_time.py crypto
-  TUI mode:            python show_time.py crypto --textual
-  Weather report:      python show_time.py weather
-  Network test:        python show_time.py ping""",
+        epilog="""\033[1mExamples:\033[0m
+  \033[32mBasic crypto price:\033[0m  python show_time.py crypto
+  \033[32mTUI mode:\033[0m            python show_time.py crypto --textual
+  \033[32mWeather report:\033[0m      python show_time.py weather
+  \033[32mNetwork test:\033[0m        python show_time.py ping --host 8.8.8.8
+  
+\033[1mNote:\033[0m Weather command requires OPENWEATHER_API_KEY environment variable""",
     )
     subparsers = parser.add_subparsers(dest="command", required=True, metavar="COMMAND")
     # Crypto command

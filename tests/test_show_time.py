@@ -196,17 +196,17 @@ def test_textual_installed():
 
 def test_show_time_no_textual_cli():
     """Test that show_time.py CLI version runs without errors even when textual is not installed."""
-    # This test will pass regardless of whether textual is installed
     result = subprocess.run(
-        ["python", "show_time.py"], capture_output=True, text=True, check=False
+        ["python", "show_time.py", "crypto"],  # Explicitly test crypto command
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=10  # Add timeout to prevent hanging
     )
-    # CLI version should work without textual
     if not TEXTUAL_INSTALLED:
-        # If textual is not installed, the CLI version should still work
         assert result.returncode == 0
         assert "Ethereum" in result.stdout
     else:
-        # If textual is installed, the CLI version should also work
         assert result.returncode == 0
         assert "Ethereum" in result.stdout
 
@@ -283,7 +283,7 @@ def test_help_command():
         text=True,
         check=True,
     )
-    assert "Show this help message and exit" in result.stdout
+    assert "show this help message and exit" in result.stdout.lower()
     assert "Examples" in result.stdout
 
 

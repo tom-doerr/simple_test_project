@@ -76,3 +76,50 @@ mypy show_time.py
 > **Warning**  
 > The weather command requires a valid OpenWeatherMap API key.  
 > Textual TUI requires a compatible terminal emulator.
+# System Monitor CLI
+
+Track real-time cryptocurrency prices, network status, and weather information from your terminal.
+
+## Features
+
+- 🕒 Live Ethereum price updates
+- 🌦️ Local weather reports (requires OpenWeatherMap API key)
+- 📶 Network connectivity testing with ping statistics
+- 🖥️ Textual-based TUI interface (optional)
+
+## Installation
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+## Usage
+
+```bash
+python show_time.py COMMAND [OPTIONS]
+```
+
+### Basic Commands:
+```bash
+# Get Ethereum price
+python show_time.py crypto
+
+# Run network connectivity test
+python show_time.py ping --host 1.1.1.1
+
+# Start Textual TUI (requires textual)
+python show_time.py crypto --textual
+```
+
+### Weather Reports:
+```bash
+# Set API key first
+export OPENWEATHER_API_KEY="your_api_key"
+
+# Get weather report
+python show_time.py weather
+```
+
+## Examples
+
+![CLI Demo](https://via.placeholder.com/600x200?text=CLI+Demo+Output)
