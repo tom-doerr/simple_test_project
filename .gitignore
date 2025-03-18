@@ -1,8 +1,10 @@
+context.md
+custom_aider_history.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-context.md
 
 # C extensions
 *.so
