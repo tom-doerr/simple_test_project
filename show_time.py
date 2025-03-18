@@ -112,23 +112,23 @@ except ImportError:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="System monitoring CLI tool",
-        formatter_class=argparse.RawTextHelpFormatter
+        formatter_class=argparse.RawTextHelpFormatter,
     )
-    subparsers = parser.add_subparsers(dest='command', required=True)
+    subparsers = parser.add_subparsers(dest="command", required=True)
     # Crypto command
-    crypto_parser = subparsers.add_parser('crypto', help='Cryptocurrency price monitoring')
+    crypto_parser = subparsers.add_parser(
+        "crypto", help="Cryptocurrency price monitoring"
+    )
     crypto_parser.add_argument(
-        '--textual', 
-        action='store_true',
-        help='Start Textual TUI interface'
+        "--textual", action="store_true", help="Start Textual TUI interface"
     )
     # Weather command
-    weather_parser = subparsers.add_parser('weather', help='Local weather information')
+    weather_parser = subparsers.add_parser("weather", help="Local weather information")
 
     # Ping command
-    ping_parser = subparsers.add_parser('ping',
-        help='Network jitter measurement\n'
-             'Example: python show_time.py ping')
+    ping_parser = subparsers.add_parser(
+        "ping", help="Network jitter measurement\n" "Example: python show_time.py ping"
+    )
     args = parser.parse_args()
 
     if args.textual and not TEXTUAL_INSTALLED:

@@ -224,6 +224,7 @@ def test_show_time_no_textual_app():
     assert result.returncode == 1
     assert "Textual is not installed" in result.stdout
 
+
 def test_ping_command():
     """Test the ping command runs and produces valid output."""
     result = subprocess.run(
@@ -235,6 +236,7 @@ def test_ping_command():
     # Allow non-zero exit since ping might fail in CI
     assert "Packet Loss" in result.stdout
     assert "Average Time" in result.stdout
+
 
 def test_weather_command_no_key():
     """Test weather command fails without API key."""
