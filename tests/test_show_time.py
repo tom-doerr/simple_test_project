@@ -21,6 +21,11 @@ def test_show_time_output():
     assert "$" in result.stdout
 
 
+import pytest
+
+from textual.tester import AppTester
+
+
 def test_textual_app_runs():
     """Test that the Textual app runs without errors."""
     result = subprocess.run(
@@ -30,3 +35,13 @@ def test_textual_app_runs():
         check=True,
     )
     assert result.returncode == 0
+
+
+@pytest.mark.asyncio
+async def test_crypto_display_render():
+    """Test that CryptoDisplay renders correctly."""
+    from show_time import CryptoApp
+
+    app = AppTester(app=CryptoApp())
+    await app.boot_app()
+    assert app.content != ""
