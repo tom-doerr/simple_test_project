@@ -222,7 +222,7 @@ def test_show_time_no_textual_app():
         check=False,
     )
     assert result.returncode == 1
-    assert "Textual is not installed" in result.stdout
+    assert "Textual is not installed" in result.stderr
 
 
 @pytest.mark.integration
@@ -259,7 +259,7 @@ def test_full_cli_flow():
         text=True,
         check=True,
     )
-    assert "Show this help message and exit" in result.stdout
+    assert "show this help message and exit" in result.stdout.lower()
 
 
 def test_weather_command_no_key():

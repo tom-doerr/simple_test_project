@@ -160,19 +160,22 @@ if __name__ == "__main__":
         ping_main(host=args.host)  # Pass host argument to ping_jitter
         sys.exit(0)
 
-    if args.textual and not TEXTUAL_INSTALLED:
-        sys.stderr.write(
-            "Textual is not installed. Please install it "
-            "to run the Textual interface.\n"
-        )
-        sys.exit(1)
-    if args.textual:
-        app = CryptoApp()
-        app.run()
-    else:
-        console = Console()
+    # Handle crypto command
+    if args.command == "crypto":
+        if args.textual and not TEXTUAL_INSTALLED:
+            sys.stderr.write(
+                "Textual is not installed. Please install it "
+                "to run the Textual interface.\n"
+            )
+            sys.exit(1)
+        if args.textual:
+            app = CryptoApp()
+            app.run()
+            return
 
-        if args.weather:
+    console = Console()
+
+    if args.command == "weather":
             # Weather display logic
             api_key = os.getenv("OPENWEATHER_API_KEY")
             if not api_key:
@@ -200,8 +203,8 @@ if __name__ == "__main__":
             table.add_row("Conditions", weather["weather"][0]["description"].title())
             table.add_row("Humidity", f"{weather['main']['humidity']}%")
             table.add_row("Wind Speed", f"{weather['wind']['speed']} m/s")
-        else:
-            # Original crypto display
+    elif args.command == "crypto":
+        # Crypto CLI display
             table = Table(show_header=True, header_style="bold magenta")
             table.add_column("Time", style="dim", width=20)
             table.add_column("Asset", width=12)
