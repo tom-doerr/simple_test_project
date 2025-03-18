@@ -3,7 +3,7 @@
 import subprocess
 
 import pytest
-from textual.testing import AppTester
+from textual import AppTester
 
 try:
     from show_time import CryptoApp, CryptoDisplay
