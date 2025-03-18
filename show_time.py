@@ -74,7 +74,6 @@ except ImportError:
     def compose() -> ComposeResult:
         """Create child widgets for the app."""
         yield Header()
-        yield CryptoDisplay()
         yield Footer()
 
 
