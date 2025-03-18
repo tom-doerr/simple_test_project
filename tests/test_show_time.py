@@ -1,26 +1,6 @@
 """Tests for show_time.py."""
 
-<<<<<<< HEAD
-import datetime
 import subprocess
-import pytest
-import requests
-
-try:
-    from textual.testing import AppTester
-    from show_time import CryptoApp, CryptoDisplay
-
-    TEXTUAL_INSTALLED = True
-except ImportError as e:
-    print(f"Failed to import required modules: {e}. Ensure textual is installed.")
-    AppTester = None
-    CryptoApp = None
-    CryptoDisplay = None
-    TEXTUAL_INSTALLED = False
-
-=======
-import subprocess
->>>>>>> task/train_a_logistic_regression_model_on_mnist_20250318_110719
 
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 def test_show_time():
