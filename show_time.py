@@ -6,33 +6,35 @@ to display cryptocurrency prices and current time.
 
 import argparse
 import datetime
+import os
 import sys
 import requests
-
 from rich.console import Console
 from rich.table import Table
-import os
 
 def get_current_location() -> dict:
     """Get current location using IP API."""
     try:
-        response = requests.get("https://ipapi.co/json/", timeout=10)
-        response.raise_for_status()
-        return response.json()
+        resp = requests.get("https://ipapi.co/json/", timeout=10)
+        resp.raise_for_status()
+        return resp.json()
     except requests.exceptions.RequestException as e:
-        console = Console()
+        local_console = Console()
         console.print(f"Error getting location: {e}", style="red")
         sys.exit(1)
 
 def get_weather(api_key: str, lat: float, lon: float) -> dict:
     """Get weather data from OpenWeatherMap API."""
     try:
-        url = f"http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric"
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        return response.json()
+        url = (
+            f"http://api.openweathermap.org/data/2.5/weather"
+            f"?lat={lat}&lon={lon}&appid={api_key}&units=metric"
+        )
+        resp = requests.get(url, timeout=10)
+        resp.raise_for_status()
+        return resp.json()
     except requests.exceptions.RequestException as e:
-        console = Console()
+        local_console = Console()
         console.print(f"Error fetching weather: {e}", style="red")
         sys.exit(1)
 
@@ -112,8 +114,12 @@ if __name__ == "__main__":
         "--textual", action="store_true", help="Run the Textual interface."
     )
     parser.add_argument(
-        "--weather", action="store_true", 
-        help="Show weather information for current location (requires OPENWEATHER_API_KEY environment variable)"
+        "--weather", 
+        action="store_true", 
+        help=(
+            "Show weather information for current location "
+            "(requires OPENWEATHER_API_KEY environment variable)"
+        )
     )
     args = parser.parse_args()
 
@@ -132,18 +138,25 @@ if __name__ == "__main__":
             # Weather display logic
             api_key = os.getenv("OPENWEATHER_API_KEY")
             if not api_key:
-                console.print("Error: OPENWEATHER_API_KEY environment variable not set", style="red")
+                console.print("Error: OPENWEATHER_API_KEY not set", style="red")
                 sys.exit(1)
-                
+
             location = get_current_location()
             weather = get_weather(api_key, location['lat'], location['lon'])
             
-            table = Table(show_header=True, header_style="bold cyan")
+            table = Table(
+                show_header=True,
+                header_style="bold cyan"
+            )
             table.add_column("Metric", style="dim", width=20)
             table.add_column("Value", justify="right")
             
             table.add_row("Time", datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-            table.add_row("Location", f"{location.get('city', 'Unknown')}, {location.get('country_name', 'Unknown')}")
+            table.add_row(
+                "Location",
+                f"{location.get('city', 'Unknown')}, "
+                f"{location.get('country_name', 'Unknown')}"
+            )
             table.add_row("Temperature", f"{weather['main']['temp']}°C")
             table.add_row("Conditions", weather['weather'][0]['description'].title())
             table.add_row("Humidity", f"{weather['main']['humidity']}%")
