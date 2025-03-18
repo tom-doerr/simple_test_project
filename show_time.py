@@ -12,7 +12,9 @@ table.add_column("Time", style="dim", width=20)
 table.add_column("Asset", width=12)
 table.add_column("Price", justify="right")
 
-response = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd")
+response = requests.get(
+    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
+)
 data = response.json()
 eth_price = data["ethereum"]["usd"]
 
