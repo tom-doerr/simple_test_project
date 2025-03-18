@@ -27,7 +27,6 @@ try:
             yield CryptoDisplay()
             yield Footer()
 
-
     class CryptoDisplay(Static):
         """A widget to display the crypto price."""
 
