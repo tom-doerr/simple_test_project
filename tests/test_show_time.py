@@ -3,15 +3,18 @@
 import subprocess
 import pytest
 import requests
+import importlib
 
 try:
     from textual.testing import AppTester
     from show_time import CryptoApp, CryptoDisplay
+    TEXTUAL_INSTALLED = True
 except ImportError as e:
     print(f"Failed to import required modules: {e}. Ensure textual is installed.")
     AppTester = None
     CryptoApp = None
     CryptoDisplay = None
+    TEXTUAL_INSTALLED = False
 
 
 def test_show_time():
@@ -32,7 +35,7 @@ def test_show_time_output():
     assert "$" in result.stdout
 
 
-@pytest.mark.skipif(AppTester is None, reason="textual is not installed")
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 def test_textual_app_runs():
     """Test that the Textual app runs without errors."""
     try:
@@ -48,7 +51,7 @@ def test_textual_app_runs():
 
 
 @pytest.mark.asyncio
-@pytest.mark.skipif(AppTester is None, reason="textual is not installed")
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 async def test_crypto_display_render():
     """Test that CryptoDisplay renders correctly."""
     if CryptoApp is None:
@@ -58,14 +61,12 @@ async def test_crypto_display_render():
         app = AppTester(app=CryptoApp())
         await app.boot_app()
         assert app.content != ""
-    except Exception as e:
-        if not isinstance(e, (requests.exceptions.RequestException, AssertionError)):
-            raise e
+    except (requests.exceptions.RequestException, AssertionError) as e:
         pytest.fail(f"App failed to run: {e}")
 
 
 @pytest.mark.asyncio
-@pytest.mark.skipif(AppTester is None, reason="textual is not installed")
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 async def test_crypto_display_initial_render():
     """Test that CryptoDisplay renders initial content correctly."""
     if CryptoApp is None or CryptoDisplay is None:
@@ -76,14 +77,12 @@ async def test_crypto_display_initial_render():
         await app.boot_app()
         crypto_display = app.app.query_one(CryptoDisplay)
         assert "Loading..." in str(crypto_display.render())
-    except Exception as e:
-        if not isinstance(e, (requests.exceptions.RequestException, AssertionError)):
-            raise e
+    except (requests.exceptions.RequestException, AssertionError) as e:
         pytest.fail(f"App failed to run: {e}")
 
 
 @pytest.mark.asyncio
-@pytest.mark.skipif(AppTester is None, reason="textual is not installed")
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 async def test_crypto_display_price_displayed():
     """Test that CryptoDisplay displays the Ethereum price."""
     if CryptoApp is None or CryptoDisplay is None:
@@ -95,14 +94,12 @@ async def test_crypto_display_price_displayed():
         crypto_display = app.app.query_one(CryptoDisplay)
         await crypto_display.update_price()  # Wait for the price to load
         assert "$" in str(crypto_display.render())
-    except Exception as e:
-        if not isinstance(e, (requests.exceptions.RequestException, AssertionError)):
-            raise e
+    except (requests.exceptions.RequestException, AssertionError) as e:
         pytest.fail(f"App failed to run: {e}")
 
 
 @pytest.mark.asyncio
-@pytest.mark.skipif(AppTester is None, reason="textual is not installed")
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 async def test_crypto_app_displays_data():
     """Test that CryptoApp displays data in the Textual interface."""
     if CryptoApp is None:
@@ -115,7 +112,11 @@ async def test_crypto_app_displays_data():
         await crypto_display.update_price()
         assert "Ethereum" in str(crypto_display.render())
         assert "$" in str(crypto_display.render())
-    except Exception as e:
-        if not isinstance(e, (requests.exceptions.RequestException, AssertionError)):
-            raise e
+    except (requests.exceptions.RequestException, AssertionError) as e:
         pytest.fail(f"App failed to run: {e}")
+
+
+def test_textual_installed():
+    """Test that textual is installed. If not, skip textual tests."""
+    if not TEXTUAL_INSTALLED:
+        pytest.skip("textual is not installed")
