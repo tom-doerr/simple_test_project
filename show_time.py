@@ -120,7 +120,6 @@ if __name__ == "__main__":
   Network test:        python show_time.py ping"""
     )
     subparsers = parser.add_subparsers(dest="command", required=True, metavar="COMMAND")
-    
     # Crypto command
     crypto_parser = subparsers.add_parser(
         "crypto", 
@@ -128,7 +127,7 @@ if __name__ == "__main__":
         description="Track Ethereum price in USD"
     )
     crypto_parser.add_argument(
-        "--textual", 
+        "--textual",
         action="store_true", 
         help="Start Textual TUI interface (requires textual installed)"
     )
