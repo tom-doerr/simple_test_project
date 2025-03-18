@@ -126,6 +126,13 @@ async def test_crypto_app_displays_data():
     if CryptoApp is None:
         pytest.skip("CryptoApp could not be imported.")
 
+    app = AppTester(app=CryptoApp())
+    await app.boot_app()
+    crypto_display = app.app.query_one(CryptoDisplay)
+    await crypto_display.update_price()
+    assert "Ethereum" in str(crypto_display.render())
+    assert "$" in str(crypto_display.render())
+
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
@@ -140,24 +147,11 @@ async def test_crypto_display_handles_api_error(mocker):
         side_effect=requests.exceptions.RequestException("Simulated API error"),
     )
 
-    try:
-        app = AppTester(app=CryptoApp())
-        await app.boot_app()
-        crypto_display = app.app.query_one(CryptoDisplay)
-        await crypto_display.update_price()
-        assert "Error fetching data" in str(crypto_display.render())
-    except (requests.exceptions.RequestException, AssertionError) as e:
-        pytest.fail(f"App failed to run: {e}")
-
-    try:
-        app = AppTester(app=CryptoApp())
-        await app.boot_app()
-        crypto_display = app.app.query_one(CryptoDisplay)
-        await crypto_display.update_price()
-        assert "Ethereum" in str(crypto_display.render())
-        assert "$" in str(crypto_display.render())
-    except (requests.exceptions.RequestException, AssertionError) as e:
-        pytest.fail(f"App failed to run: {e}")
+    app = AppTester(app=CryptoApp())
+    await app.boot_app()
+    crypto_display = app.app.query_one(CryptoDisplay)
+    await crypto_display.update_price()
+    assert "Error fetching data" in str(crypto_display.render())
 
 
 @pytest.mark.asyncio
@@ -175,20 +169,6 @@ async def test_crypto_app_runs():
         pytest.fail(f"CryptoApp failed to run: {e}")
 
 
-@pytest.mark.asyncio
-@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
-async def test_crypto_app_displays_eth_price():
-    """Test that CryptoApp displays the Ethereum price in the Textual interface."""
-    if CryptoApp is None:
-        pytest.skip("CryptoApp could not be imported.")
-
-    try:
-        app = AppTester(app=CryptoApp())
-        await app.boot_app()
-        crypto_display = app.app.query_one(CryptoDisplay)
-        assert "$" in str(crypto_display.render())
-    except (requests.exceptions.RequestException, AssertionError) as e:
-        pytest.fail(f"CryptoApp failed to run: {e}")
 
 
 def test_textual_installed():
