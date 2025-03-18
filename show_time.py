@@ -66,7 +66,9 @@ class CryptoDisplay(Static):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Display current time and Ethereum price.")
+    parser = argparse.ArgumentParser(
+        description="Display current time and Ethereum price."
+    )
     parser.add_argument(
         "--textual", action="store_true", help="Run the Textual interface."
     )
@@ -95,5 +97,7 @@ if __name__ == "__main__":
         data = response.json()
         eth_price = data["ethereum"]["usd"]
 
-        table.add_row(now.strftime("%Y-%m-%d %H:%M:%S"), "Ethereum", f"${eth_price:,.2f}")
+        table.add_row(
+            now.strftime("%Y-%m-%d %H:%M:%S"), "Ethereum", f"${eth_price:,.2f}"
+        )
         console.print(table)
