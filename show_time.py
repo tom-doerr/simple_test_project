@@ -176,54 +176,54 @@ if __name__ == "__main__":
     console = Console()
 
     if args.command == "weather":
-            # Weather display logic
-            api_key = os.getenv("OPENWEATHER_API_KEY")
-            if not api_key:
-                sys.stderr.write(
-                    "Error: OPENWEATHER_API_KEY environment variable not set\n"
-                )
-                sys.exit(1)
-
-            location = get_current_location()
-            weather = get_weather(
-                owm_api_key=api_key, lat=location["lat"], lon=location["lon"]
+        # Weather display logic
+        api_key = os.getenv("OPENWEATHER_API_KEY")
+        if not api_key:
+            sys.stderr.write(
+                "Error: OPENWEATHER_API_KEY environment variable not set\n"
             )
+            sys.exit(1)
 
-            table = Table(show_header=True, header_style="bold cyan")
-            table.add_column("Metric", style="dim", width=20)
-            table.add_column("Value", justify="right")
+        location = get_current_location()
+        weather = get_weather(
+            owm_api_key=api_key, lat=location["lat"], lon=location["lon"]
+        )
 
-            table.add_row("Time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            table.add_row(
-                "Location",
-                f"{location.get('city', 'Unknown')}, "
-                f"{location.get('country_name', 'Unknown')}",
-            )
-            table.add_row("Temperature", f"{weather['main']['temp']}°C")
-            table.add_row("Conditions", weather["weather"][0]["description"].title())
-            table.add_row("Humidity", f"{weather['main']['humidity']}%")
-            table.add_row("Wind Speed", f"{weather['wind']['speed']} m/s")
+        table = Table(show_header=True, header_style="bold cyan")
+        table.add_column("Metric", style="dim", width=20)
+        table.add_column("Value", justify="right")
+
+        table.add_row("Time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        table.add_row(
+            "Location",
+            f"{location.get('city', 'Unknown')}, "
+            f"{location.get('country_name', 'Unknown')}",
+        )
+        table.add_row("Temperature", f"{weather['main']['temp']}°C")
+        table.add_row("Conditions", weather["weather"][0]["description"].title())
+        table.add_row("Humidity", f"{weather['main']['humidity']}%")
+        table.add_row("Wind Speed", f"{weather['wind']['speed']} m/s")
     elif args.command == "crypto":
         # Crypto CLI display
-            table = Table(show_header=True, header_style="bold magenta")
-            table.add_column("Time", style="dim", width=20)
-            table.add_column("Asset", width=12)
-            table.add_column("Price", justify="right")
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("Time", style="dim", width=20)
+        table.add_column("Asset", width=12)
+        table.add_column("Price", justify="right")
 
-            try:
-                response = requests.get(
-                    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
-                    timeout=10,
-                )
-                response.raise_for_status()
-            except requests.exceptions.RequestException as e:
-                console.print(f"Error fetching data: {e}", style="red")
-                sys.exit(1)
-            data = response.json()
-            eth_price = data["ethereum"]["usd"]
-
-            table.add_row(
-                now.strftime("%Y-%m-%d %H:%M:%S"), "Ethereum", f"${eth_price:,.2f}"
+        try:
+            response = requests.get(
+                "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
+                timeout=10,
             )
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            console.print(f"Error fetching data: {e}", style="red")
+            sys.exit(1)
+        data = response.json()
+        eth_price = data["ethereum"]["usd"]
+
+        table.add_row(
+            now.strftime("%Y-%m-%d %H:%M:%S"), "Ethereum", f"${eth_price:,.2f}"
+        )
 
     console.print(table)
