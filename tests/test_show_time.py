@@ -12,8 +12,10 @@ def test_show_time():
 
 
 def test_show_time_output():
-    """Test that show_time.py produces output."""
+    """Test that show_time.py produces output and contains expected data."""
     result = subprocess.run(
         ["python", "show_time.py"], capture_output=True, text=True, check=True
     )
     assert len(result.stdout) > 0
+    assert "Ethereum" in result.stdout
+    assert "$" in result.stdout

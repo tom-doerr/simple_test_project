@@ -14,10 +14,15 @@ table.add_column("Time", style="dim", width=20)
 table.add_column("Asset", width=12)
 table.add_column("Price", justify="right")
 
-response = requests.get(
-    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
-    timeout=10,
-)
+try:
+    response = requests.get(
+        "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
+        timeout=10,
+    )
+    response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
+except requests.exceptions.RequestException as e:
+    console.print(f"Error fetching data: {e}", style="red")
+    exit(1)
 data = response.json()
 eth_price = data["ethereum"]["usd"]
 
