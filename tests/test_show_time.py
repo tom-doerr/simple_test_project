@@ -1,5 +1,6 @@
 """Tests for show_time.py."""
 
+import datetime
 import subprocess
 import pytest
 import requests
