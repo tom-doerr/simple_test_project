@@ -82,10 +82,10 @@ Track real-time cryptocurrency prices, network status, and weather information f
 
 ## Features
 
-- 🕒 Live Ethereum price updates
-- 🌦️ Local weather reports (requires OpenWeatherMap API key)
-- 📶 Network connectivity testing with ping statistics
-- 🖥️ Textual-based TUI interface (optional)
+- (Clock) Live Ethereum price updates  
+- (Cloud) Local weather reports (requires OpenWeatherMap API key)  
+- (Net) Network connectivity testing with ping statistics  
+- (TUI) Textual-based interface (optional)  
 
 ## Installation
 
