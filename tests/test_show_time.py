@@ -1,5 +1,6 @@
 """Tests for show_time.py."""
 
+<<<<<<< HEAD
 import datetime
 import subprocess
 import pytest
@@ -17,6 +18,9 @@ except ImportError as e:
     CryptoDisplay = None
     TEXTUAL_INSTALLED = False
 
+=======
+import subprocess
+>>>>>>> task/train_a_logistic_regression_model_on_mnist_20250318_110719
 
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 def test_show_time():
