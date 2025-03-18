@@ -1,7 +1,7 @@
 # System Monitor CLI
 
-A command-line tool for monitoring cryptocurrency prices, network status, and weather information
-with both CLI and Textual TUI interfaces.
+A command-line tool for monitoring cryptocurrency prices, network status, 
+and weather information with both CLI and Textual TUI interfaces.
 
 ## Features
 

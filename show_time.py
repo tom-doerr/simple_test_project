@@ -128,7 +128,7 @@ if __name__ == "__main__":
     )
     crypto_parser.add_argument(
         "--textual",
-        action="store_true", 
+        action="store_true",
         help="Start Textual TUI interface (requires textual installed)"
     )
     
