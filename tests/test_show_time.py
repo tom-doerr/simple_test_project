@@ -58,6 +58,8 @@ async def test_crypto_display_render():
         await app.boot_app()
         assert app.content != ""
     except Exception as e:
+        if not isinstance(e, (requests.exceptions.RequestException, AssertionError)):
+            raise e
         pytest.fail(f"App failed to run: {e}")
 
 
@@ -74,6 +76,8 @@ async def test_crypto_display_initial_render():
         crypto_display = app.app.query_one(CryptoDisplay)
         assert "Loading..." in str(crypto_display.render())
     except Exception as e:
+        if not isinstance(e, (requests.exceptions.RequestException, AssertionError)):
+            raise e
         pytest.fail(f"App failed to run: {e}")
 
 
@@ -91,6 +95,8 @@ async def test_crypto_display_price_displayed():
         await crypto_display.update_price()  # Wait for the price to load
         assert "$" in str(crypto_display.render())
     except Exception as e:
+        if not isinstance(e, (requests.exceptions.RequestException, AssertionError)):
+            raise e
         pytest.fail(f"App failed to run: {e}")
 
 
@@ -109,4 +115,6 @@ async def test_crypto_app_displays_data():
         assert "Ethereum" in str(crypto_display.render())
         assert "$" in str(crypto_display.render())
     except Exception as e:
+        if not isinstance(e, (requests.exceptions.RequestException, AssertionError)):
+            raise e
         pytest.fail(f"App failed to run: {e}")
