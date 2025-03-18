@@ -150,7 +150,7 @@ async def test_crypto_app_runs():
         app = CryptoApp()
         await app.process_messages()  # Process initial messages
         assert True  # If it gets here without an exception, it's considered a pass
-    except Exception as e:
+    except (Exception, requests.exceptions.RequestException, AssertionError) as e:
         pytest.fail(f"CryptoApp failed to run: {e}")
 
 
