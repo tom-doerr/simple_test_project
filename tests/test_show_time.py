@@ -50,3 +50,15 @@ async def test_crypto_display_render():
     app = AppTester(app=CryptoApp())
     await app.boot_app()
     assert app.content != ""
+
+
+@pytest.mark.asyncio
+async def test_crypto_display_initial_render():
+    """Test that CryptoDisplay renders initial content correctly."""
+    if CryptoApp is None:
+        pytest.skip("CryptoApp could not be imported.")
+
+    app = AppTester(app=CryptoApp())
+    await app.boot_app()
+    crypto_display = app.app.query_one(CryptoDisplay)
+    assert "Loading..." in crypto_display.render()
