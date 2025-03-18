@@ -4,7 +4,7 @@ import subprocess
 import datetime
 import pytest
 import requests
-from conftest import TEXTUAL_INSTALLED, crypto_app as CryptoApp, crypto_display as CryptoDisplay, app_tester as AppTester
+from conftest import TEXTUAL_INSTALLED, CRYPTO_APP as CryptoApp, CRYPTO_DISPLAY as CryptoDisplay, APP_TESTER as AppTester
 
 
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
