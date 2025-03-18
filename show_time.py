@@ -1,4 +1,5 @@
 """Display current time and Ethereum price."""
+
 import datetime
 import requests
 from rich.console import Console
