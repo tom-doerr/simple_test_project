@@ -105,6 +105,29 @@ async def test_crypto_app_displays_data():
     if CryptoApp is None:
         pytest.skip("CryptoApp could not be imported.")
 
+
+@pytest.mark.asyncio
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
+async def test_crypto_display_handles_api_error(mocker):
+    """Test that CryptoDisplay handles API request errors gracefully."""
+    if CryptoApp is None or CryptoDisplay is None:
+        pytest.skip("CryptoApp or CryptoDisplay could not be imported.")
+
+    # Mock the requests.get method to simulate an API error
+    mocker.patch(
+        "requests.get",
+        side_effect=requests.exceptions.RequestException("Simulated API error"),
+    )
+
+    try:
+        app = AppTester(app=CryptoApp())
+        await app.boot_app()
+        crypto_display = app.app.query_one(CryptoDisplay)
+        await crypto_display.update_price()
+        assert "Error fetching data" in str(crypto_display.render())
+    except (requests.exceptions.RequestException, AssertionError) as e:
+        pytest.fail(f"App failed to run: {e}")
+
     try:
         app = AppTester(app=CryptoApp())
         await app.boot_app()
