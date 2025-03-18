@@ -18,6 +18,7 @@ except ImportError as e:
     TEXTUAL_INSTALLED = False
 
 
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 def test_show_time():
     """Test that show_time.py runs without errors."""
     result = subprocess.run(
@@ -26,6 +27,7 @@ def test_show_time():
     assert result.returncode == 0
 
 
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 def test_show_time_output():
     """Test that show_time.py produces output and contains expected data."""
     result = subprocess.run(
