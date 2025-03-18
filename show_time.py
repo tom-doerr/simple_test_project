@@ -12,6 +12,7 @@ import requests
 from rich.console import Console
 from rich.table import Table
 
+
 def get_current_location() -> dict:
     """Get current location using IP API."""
     try:
@@ -22,6 +23,7 @@ def get_current_location() -> dict:
         local_console = Console()
         local_console.print(f"Error getting location: {e}", style="red")
         sys.exit(1)
+
 
 def get_weather(owm_api_key: str, lat: float, lon: float) -> dict:
     """Get weather data from OpenWeatherMap API."""
@@ -37,6 +39,7 @@ def get_weather(owm_api_key: str, lat: float, lon: float) -> dict:
         local_console = Console()
         local_console.print(f"Error fetching weather: {e}", style="red")
         sys.exit(1)
+
 
 now = datetime.datetime.now()
 
@@ -108,80 +111,121 @@ except ImportError:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Display current time and Ethereum price or current location weather."
+        description="System Monitoring CLI - Track crypto prices, network status, and weather",
+        formatter_class=argparse.RawTextHelpFormatter,
+        epilog="""\033[1mExamples:\033[0m
+  \033[32mBasic crypto price:\033[0m  python show_time.py crypto
+  \033[32mTUI mode:\033[0m            python show_time.py crypto --textual
+  \033[32mWeather report:\033[0m      python show_time.py weather
+  \033[32mNetwork test:\033[0m        python show_time.py ping --host 8.8.8.8
+  
+\033[1mNote:\033[0m Weather command requires OPENWEATHER_API_KEY environment variable""",
     )
-    parser.add_argument(
-        "--textual", action="store_true", help="Run the Textual interface."
+    subparsers = parser.add_subparsers(dest="command", required=True, metavar="COMMAND")
+    # Crypto command
+    crypto_parser = subparsers.add_parser(
+        "crypto",
+        help="Cryptocurrency price monitoring",
+        description="Track Ethereum price in USD",
     )
-    parser.add_argument(
-        "--weather",
+    crypto_parser.add_argument(
+        "--textual",
         action="store_true",
-        help=(
-            "Show weather information for current location "
-            "(requires OPENWEATHER_API_KEY environment variable)"
-        )
+        help="Start Textual TUI interface (requires textual installed)",
     )
+
+    # Weather command
+    weather_parser = subparsers.add_parser(
+        "weather",
+        help="Local weather information",
+        description="Get current weather conditions using OpenWeatherMap API",
+    )
+
+    # Ping command
+    ping_parser = subparsers.add_parser(
+        "ping",
+        help="Network connectivity test",
+        description="Measure network jitter and packet loss",
+    )
+    ping_parser.add_argument(
+        "--host",
+        default="8.8.8.8",
+        help="Target host to ping (default: 8.8.8.8)",
+    )
+
     args = parser.parse_args()
 
-    if args.textual and not TEXTUAL_INSTALLED:
-        print(
-            "Textual is not installed. Please install it to run the Textual interface."
+    # Handle ping command separately
+    if args.command == "ping":
+        from ping_jitter import main as ping_main
+
+        ping_main(host=args.host)  # Pass host argument to ping_jitter
+        sys.exit(0)
+
+    # Handle crypto command
+    if args.command == "crypto":
+        if args.textual and not TEXTUAL_INSTALLED:
+            sys.stderr.write(
+                "Textual is not installed. Please install it "
+                "to run the Textual interface.\n"
+            )
+            sys.exit(1)
+        if args.textual:
+            app = CryptoApp()
+            app.run()
+            sys.exit(0)
+
+    console = Console()
+
+    if args.command == "weather":
+        # Weather display logic
+        api_key = os.getenv("OPENWEATHER_API_KEY")
+        if not api_key:
+            sys.stderr.write(
+                "Error: OPENWEATHER_API_KEY environment variable not set\n"
+            )
+            sys.exit(1)
+
+        location = get_current_location()
+        weather = get_weather(
+            owm_api_key=api_key, lat=location["lat"], lon=location["lon"]
         )
-        sys.exit(1)
-    if args.textual:
-        app = CryptoApp()
-        app.run()
-    else:
-        console = Console()
 
-        if args.weather:
-            # Weather display logic
-            api_key = os.getenv("OPENWEATHER_API_KEY")
-            if not api_key:
-                console.print("Error: OPENWEATHER_API_KEY not set", style="red")
-                sys.exit(1)
+        table = Table(show_header=True, header_style="bold cyan")
+        table.add_column("Metric", style="dim", width=20)
+        table.add_column("Value", justify="right")
 
-            location = get_current_location()
-            weather = get_weather(owm_api_key=api_key, lat=location['lat'], lon=location['lon'])
-            
-            table = Table(
-                show_header=True,
-                header_style="bold cyan"
+        table.add_row("Time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        table.add_row(
+            "Location",
+            f"{location.get('city', 'Unknown')}, "
+            f"{location.get('country_name', 'Unknown')}",
+        )
+        table.add_row("Temperature", f"{weather['main']['temp']}°C")
+        table.add_row("Conditions", weather["weather"][0]["description"].title())
+        table.add_row("Humidity", f"{weather['main']['humidity']}%")
+        table.add_row("Wind Speed", f"{weather['wind']['speed']} m/s")
+    elif args.command == "crypto":
+        # Crypto CLI display
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("Time", style="dim", width=20)
+        table.add_column("Asset", width=12)
+        table.add_column("Price", justify="right")
+
+        try:
+            response = requests.get(
+                "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
+                timeout=10,
             )
-            table.add_column("Metric", style="dim", width=20)
-            table.add_column("Value", justify="right")
-            
-            table.add_row("Time", datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-            table.add_row(
-                "Location",
-                f"{location.get('city', 'Unknown')}, "
-                f"{location.get('country_name', 'Unknown')}"
-            )
-            table.add_row("Temperature", f"{weather['main']['temp']}°C")
-            table.add_row("Conditions", weather['weather'][0]['description'].title())
-            table.add_row("Humidity", f"{weather['main']['humidity']}%")
-            table.add_row("Wind Speed", f"{weather['wind']['speed']} m/s")
-        else:
-            # Original crypto display
-            table = Table(show_header=True, header_style="bold magenta")
-            table.add_column("Time", style="dim", width=20)
-            table.add_column("Asset", width=12)
-            table.add_column("Price", justify="right")
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            console.print(f"Error fetching data: {e}", style="red")
+            sys.exit(1)
+        data = response.json()
+        eth_price = data["ethereum"]["usd"]
 
-            try:
-                response = requests.get(
-                    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
-                    timeout=10,
-                )
-                response.raise_for_status()
-            except requests.exceptions.RequestException as e:
-                console.print(f"Error fetching data: {e}", style="red")
-                sys.exit(1)
-            data = response.json()
-            eth_price = data["ethereum"]["usd"]
+        table.add_row(
+            now.strftime("%Y-%m-%d %H:%M:%S"), "Ethereum", f"${eth_price:,.2f}"
+        )
 
-            table.add_row(
-                now.strftime("%Y-%m-%d %H:%M:%S"), "Ethereum", f"${eth_price:,.2f}"
-            )
-
-        console.print(table)
+    console.print(table)

@@ -196,17 +196,17 @@ def test_textual_installed():
 
 def test_show_time_no_textual_cli():
     """Test that show_time.py CLI version runs without errors even when textual is not installed."""
-    # This test will pass regardless of whether textual is installed
     result = subprocess.run(
-        ["python", "show_time.py"], capture_output=True, text=True, check=False
+        ["python", "show_time.py", "crypto"],  # Explicitly test crypto command
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=10  # Add timeout to prevent hanging
     )
-    # CLI version should work without textual
     if not TEXTUAL_INSTALLED:
-        # If textual is not installed, the CLI version should still work
         assert result.returncode == 0
         assert "Ethereum" in result.stdout
     else:
-        # If textual is installed, the CLI version should also work
         assert result.returncode == 0
         assert "Ethereum" in result.stdout
 
@@ -216,10 +216,114 @@ def test_show_time_no_textual_app():
     if TEXTUAL_INSTALLED:
         pytest.skip("Textual is installed, skipping this test")
     result = subprocess.run(
-        ["python", "show_time.py", "--textual"],
+        ["python", "show_time.py", "crypto", "--textual"],
         capture_output=True,
         text=True,
         check=False,
     )
     assert result.returncode == 1
-    assert "Textual is not installed" in result.stdout
+    assert "Textual is not installed" in result.stderr
+
+
+@pytest.mark.integration
+def test_ping_command():
+    """Test the ping command runs and produces valid output."""
+    result = subprocess.run(
+        ["python", "show_time.py", "ping"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    # Check for expected metrics in output
+    assert any(s in result.stdout for s in ["Packet Loss", "Average Time", "Error"])
+    assert result.returncode in [0, 1]  # Allow success or network errors
+
+
+@pytest.mark.integration
+def test_full_cli_flow():
+    """Test end-to-end CLI command execution."""
+    # Test crypto command
+    result = subprocess.run(
+        ["python", "show_time.py", "crypto"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "Ethereum" in result.stdout
+    assert "$" in result.stdout
+
+    # Test help command
+    result = subprocess.run(
+        ["python", "show_time.py", "--help"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "show this help message and exit" in result.stdout.lower()
+
+
+def test_weather_command_no_key():
+    """Test weather command fails without API key."""
+    result = subprocess.run(
+        ["python", "show_time.py", "weather"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode != 0
+    assert "OPENWEATHER_API_KEY" in result.stderr  # Check stderr instead of stdout
+
+
+@pytest.mark.integration
+def test_help_command():
+    """Test help command output."""
+    result = subprocess.run(
+        ["python", "show_time.py", "--help"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "show this help message and exit" in result.stdout.lower()
+    assert "Examples" in result.stdout
+
+
+@pytest.mark.integration
+def test_cli_demo_commands():
+    """Test all demo commands from README."""
+    # Test crypto command
+    result = subprocess.run(
+        ["python", "show_time.py", "crypto"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "Ethereum" in result.stdout
+    assert "$" in result.stdout
+    assert "Asset" in result.stdout  # Verify table header exists
+    assert "Price" in result.stdout  # Verify table header exists
+
+    # Test ping command with different hosts
+    for host in ["8.8.8.8", "1.1.1.1"]:
+        result = subprocess.run(
+            ["python", "show_time.py", "ping", "--host", host],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert result.returncode in [0, 1]  # Allow for network errors
+        assert any(s in result.stdout for s in ["Packet Loss", "Average Time", "Error"])
+
+    # Test help command contains all documented features
+    result = subprocess.run(
+        ["python", "show_time.py", "--help"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    help_output = result.stdout
+    assert "Examples" in help_output
+    assert "crypto" in help_output
+    assert "weather" in help_output
+    assert "ping" in help_output
+    assert "--textual" in help_output
+    assert "--host" in help_output
