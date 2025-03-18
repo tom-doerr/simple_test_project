@@ -1,3 +1,4 @@
+"""Display current time and Ethereum price."""
 import datetime
 import requests
 from rich.console import Console
@@ -13,7 +14,8 @@ table.add_column("Asset", width=12)
 table.add_column("Price", justify="right")
 
 response = requests.get(
-    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
+    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
+    timeout=10,
 )
 data = response.json()
 eth_price = data["ethereum"]["usd"]
