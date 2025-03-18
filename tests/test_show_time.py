@@ -2,6 +2,7 @@
 
 import subprocess
 
+
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 def test_show_time():
     """Test that show_time.py runs without errors."""
