@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  textual-demo:
+    build: .
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
+    environment:
+      - TERM=xterm-256color
+      - COLORTERM=truecolor

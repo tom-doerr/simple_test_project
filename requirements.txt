@@ -1,5 +1,4 @@
-# Requirements for show_time.py
-requests >= 2.28.0
-rich >= 13.0.0
-textual >= 0.40.0
-pytest >= 7.2.0
+requests>=2.31.0
+rich>=13.7.0
+textual>=0.40.0
+pytest>=8.0.0
