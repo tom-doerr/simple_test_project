@@ -157,6 +157,26 @@ async def test_crypto_display_handles_api_error(mocker):
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
+async def test_crypto_app_dark_mode_toggle():
+    """Test dark mode toggle functionality."""
+    if CryptoApp is None:
+        pytest.skip("CryptoApp could not be imported.")
+        
+    app = CryptoApp()
+    async with app.run_test() as pilot:
+        # Check initial state
+        assert app.dark is False
+        
+        # Trigger dark mode toggle
+        await pilot.press("d")
+        assert app.dark is True
+        
+        # Toggle back
+        await pilot.press("d")
+        assert app.dark is False
+
+@pytest.mark.asyncio
+@pytest.mark.skipif(not TEXTUAL_INSTALLED, reason="textual is not installed")
 async def test_crypto_app_runs():
     """Test that CryptoApp can be initialized and run without errors."""
     if CryptoApp is None:

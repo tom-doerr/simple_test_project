@@ -73,12 +73,8 @@ try:
             self.current_time = None
 
         def on_mount(self) -> None:
-            """Initialize price updates when the widget is mounted.
-
-            Sets up a timer to refresh the crypto price every 60 seconds.
-            """
-            self.update_price()
-            self.set_interval(60, self.update_price)
+            """Initialize price updates when the widget is mounted."""
+            self.set_interval(60, self.update_price, pause=False)
 
         async def update_price(self) -> None:
             """Fetch the latest Ethereum price and update the display."""
@@ -95,14 +91,20 @@ try:
             except requests.exceptions.RequestException as e:
                 self.update(f"Error fetching data: {e}")
 
-        def render(self) -> str:
-            """Render the display."""
+        @property
+        def render_str(self) -> str:
+            """Render the display content."""
             if self.eth_price is None or self.current_time is None:
                 return "Loading..."
             return (
                 f"{self.current_time.strftime('%Y-%m-%d %H:%M:%S')}\n"
                 f"Ethereum: ${self.eth_price:,.2f}"
             )
+            
+        def render(self) -> str:
+            """Render the display."""
+            self.update(self.render_str)
+            return super().render()
 
 except ImportError:
     # Don't exit immediately, allow the CLI version to run
