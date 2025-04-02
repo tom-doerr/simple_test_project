@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get purge -y --auto-remove gcc python3-dev
 
 # Ensure textual can run in Docker
-ENV PYTHONUNBUFFERED=1
-ENV TERM=xterm-256color
+ENV PYTHONUNBUFFERED=1 TERM=xterm-256color
 
 CMD ["python", "show_time.py", "crypto", "--textual"]
