@@ -9,5 +9,7 @@ def test_textual_version():
     except importlib.metadata.PackageNotFoundError:
         pytest.skip("Textual not installed")
     
-    major, minor, _ = version.split('.', 2)
-    assert int(major) >= 0 and int(minor) >= 40, "Textual 0.40.0 or newer required"
+    # Handle both 0.x and 1.x+ version formats
+    parts = list(map(int, version.split('.')))
+    assert (parts[0] > 0) or (parts[0] == 0 and parts[1] >= 40), \
+        f"Textual 0.40.0 or newer required (found {version})"
