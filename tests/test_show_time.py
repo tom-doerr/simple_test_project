@@ -201,7 +201,7 @@ def test_show_time_no_textual_cli():
         capture_output=True,
         text=True,
         check=False,
-        timeout=10  # Add timeout to prevent hanging
+        timeout=10,  # Add timeout to prevent hanging
     )
     if not TEXTUAL_INSTALLED:
         assert result.returncode == 0
