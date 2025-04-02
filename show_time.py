@@ -91,9 +91,8 @@ try:
             except requests.exceptions.RequestException as e:
                 self.update(f"Error fetching data: {e}")
 
-        @property
-        def render_str(self) -> str:
-            """Render the display content."""
+        def render_content(self) -> str:
+            """Generate display content."""
             if self.eth_price is None or self.current_time is None:
                 return "Loading..."
             return (
@@ -103,7 +102,7 @@ try:
             
         def render(self) -> str:
             """Render the display."""
-            self.update(self.render_str)
+            self.update(self.render_content())
             return super().render()
 
 except ImportError:
